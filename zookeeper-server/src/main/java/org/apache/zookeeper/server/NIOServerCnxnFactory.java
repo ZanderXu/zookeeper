@@ -82,21 +82,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
     public static final String ZOOKEEPER_NIO_SHUTDOWN_TIMEOUT = "zookeeper.nio.shutdownTimeout";
 
     static {
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            public void uncaughtException(Thread t, Throwable e) {
-                LOG.error("Thread {} died", t, e);
-            }
-        });
-        /**
-         * this is to avoid the jvm bug:
-         * NullPointerException in Selector.open()
-         * http://bugs.sun.com/view_bug.do?bug_id=6427854
-         */
-        try {
-            Selector.open().close();
-        } catch (IOException ie) {
-            LOG.error("Selector failed to open", ie);
-        }
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> LOG.error("Thread {} died", t, e));
 
         /**
          * Value of 0 disables use of direct buffers and instead uses

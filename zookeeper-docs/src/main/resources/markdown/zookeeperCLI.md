@@ -1,5 +1,5 @@
 <!--
-Copyright 2002-2019 The Apache Software Foundation
+Copyright 2002-2020 The Apache Software Foundation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ Enter into the ZooKeeper-cli
 bin/zkCli.sh
 # connect to the remote host with timeout:3s
 bin/zkCli.sh -timeout 3000 -server remoteIP:2181
+# connect with a custom client configuration properties file
+bin/zkCli.sh -client-configuration /path/to/client.properties
 ```
 ## help
 Showing helps about ZooKeeper commands
@@ -66,7 +68,7 @@ Add a authorized user for ACL
 
 ```bash
 [zkshell: 9] getAcl /acl_digest_test
-    Authentication is not valid : /acl_digest_test
+    Insufficient permission : /acl_digest_test
 [zkshell: 10] addauth digest user1:12345
 [zkshell: 11] getAcl /acl_digest_test
     'digest,'user1:+owfoSBn/am19roBPzR1/MfCblE=
@@ -352,7 +354,7 @@ Pre-requisites:
 
 1. set reconfigEnabled=true in the zoo.cfg
 
-2. add a super user or skipAcl,otherwise will get “Authentication is not valid”. e.g. addauth digest zookeeper:admin
+2. add a super user or skipAcl,otherwise will get “Insufficient permission”. e.g. addauth digest zookeeper:admin
 
 ```bash
 # Change follower 2 to an observer and change its port from 2182 to 12182
